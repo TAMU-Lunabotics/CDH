@@ -37,9 +37,11 @@ legacy/     only if old code is intentionally imported for reference
 ```
 
 ## Read First
+- [Development setup](docs/SETUP.md)
 - [Status & versioning](docs/STATUS_AND_VERSIONING.md)
 - [2026–27 competition constraints](docs/COMPETITION_2026-27.md)
 - [Interfaces](docs/INTERFACES.md)
+- [Interface questions](docs/INTERFACE_QUESTIONS.md)
 - [2025–26 legacy baseline](docs/LEGACY_2025-26.md)
 - [Decision log](docs/DECISIONS.md)
 
