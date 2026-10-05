@@ -33,7 +33,7 @@ config/     current runtime configuration
 tools/      diagnostics and developer utilities
 tests/      unit / integration tests
 docs/       architecture, interfaces, requirements, decisions
-legacy/     only if old code is intentionally imported for reference
+legacy/     historical code retained only for reference
 ```
 
 ## Read First
@@ -43,6 +43,7 @@ legacy/     only if old code is intentionally imported for reference
 - [Interfaces](docs/INTERFACES.md)
 - [Interface questions](docs/INTERFACE_QUESTIONS.md)
 - [2025–26 legacy baseline](docs/LEGACY_2025-26.md)
+- [2025–26 legacy code index](docs/LEGACY_CODE_INDEX.md)
 - [Decision log](docs/DECISIONS.md)
 
 ## Workflow
