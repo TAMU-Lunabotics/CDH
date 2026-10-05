@@ -1,22 +1,19 @@
 ## Summary
 
-## Season / Status
-- [ ] CURRENT — 2026–27
-- [ ] WORKING — 2026–27
-- [ ] LEGACY — 2025–26
-- [ ] HISTORICAL — 2024–25
+## Season
+- [ ] 2026–27 current work
+- [ ] 2025–26 old/reference work
 
 ## What changed?
 
 ## Testing
-- [ ] Built locally
-- [ ] Tests run / hardware check completed
-- [ ] Not applicable (docs only)
+- [ ] Built/tested locally or on hardware
+- [ ] Not applicable (documentation only)
 
-## Interfaces / Architecture
-- [ ] No interface or architecture change
-- [ ] `docs/INTERFACES.md` updated
-- [ ] `docs/DECISIONS.md` updated
+## Did an interface or approved decision change?
+- [ ] No
+- [ ] Updated `01_CURRENT_2026-27/02_Interfaces.md`
+- [ ] Updated `01_CURRENT_2026-27/04_Decisions.md`
 
 ## Cross-team impact
-List any Electrical / CDH / GNC / Mechanical / Communications dependencies.
+List any Electrical, GNC, Mechanical, or Communications dependencies.
