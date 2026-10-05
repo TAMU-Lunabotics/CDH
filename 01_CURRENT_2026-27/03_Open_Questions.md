@@ -12,4 +12,4 @@ Keep this short and update answers after lead/subteam meetings.
 | Communications | router/WAP choice; 2.4/5 GHz support; network/security plan; bandwidth constraints; pit/arena requirements |
 | Systems / PM | CDH deliverable dates; ICD/interface owner; review expectations; baseline/freeze dates |
 
-Resolved answers should be transferred into `docs/INTERFACES.md` or `docs/DECISIONS.md`.
+Resolved answers should be transferred into `02_Interfaces.md` or `04_Decisions.md`.
