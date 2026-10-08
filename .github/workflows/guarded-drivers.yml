@@ -41,10 +41,10 @@ jobs:
       - name: Build and launch with ports closed
         shell: bash
         run: |
-          set -euo pipefail
           source /opt/ros/humble/setup.bash
           colcon build --base-paths 01_CURRENT_2026-27/06_Guarded_Drivers --packages-select cdh_actuator_guard
           source install/setup.bash
+          set -euo pipefail
           set +e
           timeout 8s ros2 launch cdh_actuator_guard guarded_drivers.launch.py > /tmp/disarmed.log 2>&1
           result=$?
