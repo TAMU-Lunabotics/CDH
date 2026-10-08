@@ -24,3 +24,32 @@ jobs:
         working-directory: 01_CURRENT_2026-27/06_Guarded_Drivers
       - run: python -m pip wheel --no-deps --no-build-isolation .
         working-directory: 01_CURRENT_2026-27/06_Guarded_Drivers
+
+  ros-disarmed:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 12
+    container:
+      image: ros:humble-ros-base-jammy
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install package dependencies
+        shell: bash
+        run: |
+          source /opt/ros/humble/setup.bash
+          rosdep update
+          rosdep install --from-paths 01_CURRENT_2026-27/06_Guarded_Drivers --ignore-src -r -y
+      - name: Build and launch with ports closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          source /opt/ros/humble/setup.bash
+          colcon build --base-paths 01_CURRENT_2026-27/06_Guarded_Drivers --packages-select cdh_actuator_guard
+          source install/setup.bash
+          set +e
+          timeout 8s ros2 launch cdh_actuator_guard guarded_drivers.launch.py > /tmp/disarmed.log 2>&1
+          result=$?
+          set -e
+          cat /tmp/disarmed.log
+          test "$result" -eq 124
+          grep -q 'driver disarmed' /tmp/disarmed.log
+          grep -q 'Pico port closed' /tmp/disarmed.log
