@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cdh-actuator-guard"
+version = "0.1.0"
+description = "Disarmed candidate Lunabotics motor and tool guards"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+include = ["cdh_actuator_guard*"]

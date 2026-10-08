@@ -2,7 +2,7 @@
 
 **This is the folder to use for current Lunabotics CDH work.**
 
-At the moment, this folder primarily contains the current-season technical information and planning baseline. **No production 2026–27 CDH code has been committed yet.** When current code is ready, it should be added here rather than mixed with last year's archive.
+This folder contains current-season planning and a **working, disarmed driver candidate**. No production 2026–27 CDH driver has been approved yet.
 
 ## What is in this folder?
 
@@ -13,6 +13,7 @@ At the moment, this folder primarily contains the current-season technical infor
 | [03_Open_Questions.md](03_Open_Questions.md) | Questions CDH still needs answered by other teams |
 | [04_Decisions.md](04_Decisions.md) | Approved current-season decisions |
 | [05_Setup.md](05_Setup.md) | How a CDH member sets up ROS 2 and the development environment |
+| [06_Guarded_Drivers](06_Guarded_Drivers/) | Disarmed RoboClaw/Pico integration candidate with command expiry and tests |
 
 ## Current Working Baseline
 

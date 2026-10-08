@@ -53,3 +53,7 @@ Use SI units unless explicitly documented otherwise.
 
 ## Ownership Boundary
 Electrical powers and wires the system. GNC decides where/how the robot should move. CDH owns the data/command/telemetry/comms/software-integration path that connects them.
+
+## Working guarded-driver candidate
+
+The proposed [guarded drive/tool nodes](06_Guarded_Drivers/) subscribe to `/autonomy/cmd_vel` (`geometry_msgs/Twist`, m/s and rad/s at 20 Hz) and `/autonomy/tool_command` (`std_msgs/String`, stop/lower/dig/raise/dump at 20 Hz). They require `/safety/estop` (`std_msgs/Bool`, at least 2 Hz), and the tool node additionally requires measured upper/lower limit switches and dig/dump RPM. They publish `/drive/encoders` (`std_msgs/Int32MultiArray`, measured counts), `/actuator/status` (`std_msgs/String`), and `/encoder/angle` (`std_msgs/Float32`, raw Pico angle). They stop after 250 ms without fresh commands or E-stop messages. These names are **WORKING**, pending the cross-team interface decision. A physical E-stop and motor-side watchdog are required separately.

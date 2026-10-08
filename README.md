@@ -4,6 +4,8 @@ This repository contains the **CDH team's software, interfaces, setup informatio
 
 ## Start Here
 
+The [guarded driver candidate](01_CURRENT_2026-27/06_Guarded_Drivers/README.md) is development code with hardware disabled by default. It is not an approved 2026–27 driver selection.
+
 You only need to understand two folders:
 
 | Folder | What it is | Use it for |
