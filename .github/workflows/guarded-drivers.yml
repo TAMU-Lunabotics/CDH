@@ -36,7 +36,7 @@ jobs:
         shell: bash
         run: |
           apt-get update
-          apt-get install -y python3-serial ros-humble-ament-python \
+          apt-get install -y python3-serial \
             ros-humble-std-srvs
       - name: Build and launch with ports closed
         shell: bash
