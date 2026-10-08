@@ -4,7 +4,7 @@
 
 The RoboClaw node subscribes to `/autonomy/cmd_vel` and `/safety/estop`. The Pico node subscribes to `/autonomy/tool_command`, E-stop, upper/lower limit switches and measured dig/dump RPM. The old Pico bridge sends `dump,dig,pivot` CSV at 115200 baud; the first two fields are Boolean and pivot is formatted to four decimal places. The guarded node also publishes serial `ENC:<angle>` on `/encoder/angle` without treating it as a lift limit or auger RPM.
 
-The drive node publishes `/drive/encoders`; the tool node publishes `/actuator/status`. Command and E-stop messages expire after 250 ms. An independent physical E-stop and device-level watchdog are still required because software on the Jetson cannot stop a driver after computer or ROS failure.
+The drive node publishes `/drive/encoders`; the tool node publishes `/actuator/status`. Command and E-stop messages expire after 250 ms. Both nodes now start latched, latch on an asserted E-stop and command/feedback faults, and require explicit `/drive_guard/reset` and `/tool_guard/reset` Trigger calls after a fresh E-stop release. Reset invalidates the prior drive command. An independent physical E-stop and device-level watchdog are still required because software on the Jetson cannot stop a driver after computer or ROS failure.
 
 Build with `colcon build --base-paths 01_CURRENT_2026-27/06_Guarded_Drivers --packages-select cdh_actuator_guard`. Run pure tests in this directory with `python3 -m unittest discover -s tests -q`. The launch is `ros2 launch cdh_actuator_guard guarded_drivers.launch.py` and opens no ports by default.
 

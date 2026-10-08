@@ -3,6 +3,7 @@ import importlib
 import math
 import sys
 from .drive_guard import DriveGuard
+from .safety import SafetyLatch
 
 
 def main(args=None):
@@ -10,6 +11,7 @@ def main(args=None):
     from rclpy.node import Node
     from geometry_msgs.msg import Twist
     from std_msgs.msg import Bool, Int32MultiArray
+    from std_srvs.srv import Trigger
 
     class RoboClawNode(Node):
         def __init__(self):
@@ -26,6 +28,7 @@ def main(args=None):
             self.device = None
             self.estop = True
             self.estop_time = -1e9
+            self.latch = SafetyLatch()
             self.address = int(p('address'))
             self.swap = bool(p('swap_channels'))
             self.encoder_left_sign = int(p('encoder_left_sign'))
@@ -54,7 +57,17 @@ def main(args=None):
             self.create_subscription(Twist, '/autonomy/cmd_vel', self.command, 10)
             self.create_subscription(Bool, '/safety/estop', self.on_estop, 10)
             self.encoders = self.create_publisher(Int32MultiArray, '/drive/encoders', 10)
+            self.create_service(Trigger, '/drive_guard/reset', self.reset)
             self.create_timer(0.05, self.step)
+
+        def reset(self, request, response):
+            if self.guard and self.device and self.latch.reset(self.now(),
+                    self.estop,self.estop_time):
+                self.guard.invalidate()
+                response.success,response.message = True,'inhibit cleared; fresh command required'
+            else:
+                response.success,response.message = False,'hardware or safety input not ready'
+            return response
 
         def now(self):
             return self.get_clock().now().nanoseconds * 1e-9
@@ -66,10 +79,12 @@ def main(args=None):
                 except ValueError:
                     self._write(0, 0)
                     self.guard.invalidate()
+                    self.latch.trip('invalid_command')
 
         def on_estop(self, msg):
             self.estop, self.estop_time = bool(msg.data), self.now()
             if self.estop:
+                self.latch.trip('estop')
                 self._write(0, 0)
 
         def _write(self, left, right):
@@ -83,13 +98,20 @@ def main(args=None):
                     getattr(self.device, op+motor)(self.address, abs(value))
             except Exception as exc:
                 self.get_logger().error(f'RoboClaw write failed: {exc}')
+                self.latch.trip('serial_write_failed')
                 self.guard = None
 
         def step(self):
             if self.device is None:
                 return
-            left, right = (self.guard.output(self.now(), self.estop, self.estop_time)
-                           if self.guard else (0, 0))
+            now = self.now()
+            left,right = (self.guard.output(now,self.estop,self.estop_time)
+                          if self.guard and self.latch.armed else (0,0))
+            if self.latch.armed and self.guard and (
+                    now-self.guard.last_time > self.guard.timeout or
+                    now-self.estop_time > self.guard.timeout):
+                self.latch.trip('input_timeout')
+                left,right = 0,0
             self._write(left, right)
             try:
                 one, two = self.device.ReadEncM1(self.address), self.device.ReadEncM2(self.address)
