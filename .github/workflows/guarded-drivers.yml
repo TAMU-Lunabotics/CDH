@@ -35,9 +35,9 @@ jobs:
       - name: Install package dependencies
         shell: bash
         run: |
-          source /opt/ros/humble/setup.bash
-          rosdep update
-          rosdep install --from-paths 01_CURRENT_2026-27/06_Guarded_Drivers --ignore-src -r -y
+          apt-get update
+          apt-get install -y python3-serial ros-humble-ament-python \
+            ros-humble-std-srvs
       - name: Build and launch with ports closed
         shell: bash
         run: |
